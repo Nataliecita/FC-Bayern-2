@@ -1006,31 +1006,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                     
                     self.place2DVideo(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(0.3), offsetVert: Float(0.3)) //(Positive, Positive) -> topRight
                     
-                    /*
-                     
-                     //Place object
-                     let plane = SCNPlane(width: CGFloat((bottomRightVector-bottomLeftVector).length()), height: CGFloat((bottomLeftVector-topLeftVector).length()))
-                     
-                     
-                     let vectorToCenterOfRightSide = bottomRightVector+(topRightVector-bottomRightVector)*0.5
-                     let rotationAxis = (bottomLeftVector-bottomRightVector).cross(vector: bottomLeftVector-topLeftVector)
-                     
-                     let rotationAxisCROSSRightSideVector = rotationAxis.cross(vector: topRightVector-bottomRightVector)
-                     let rotationAxisCROSSToCenterOfRightSide = rotationAxis.cross(vector: vectorToCenterOfRightSide)
-                     
-                     let angle = acos((rotationAxisCROSSRightSideVector.dot(vector: rotationAxisCROSSToCenterOfRightSide))/(rotationAxisCROSSToCenterOfRightSide.length()*rotationAxisCROSSRightSideVector.length()))
-                     
-                     plane.firstMaterial?.diffuse.contents = UIColor.white
-                     
-                     let planeNode = SCNNode()
-                     
-                     planeNode.geometry = plane
-                     planeNode.position = vectorToPlaneCenter
-                     planeNode.rotation = SCNVector4Make(rotationAxis.x, rotationAxis.y, rotationAxis.z, angle) // ROTATION AXIS VECTOR SHOULD BE THE NORMAL VECTOR TO PLANE
-                     
-                     self.sceneView.scene.rootNode.addChildNode(planeNode)
-                     
-                     */
+                    self.place2DImage(width: self.mWidthOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(-0.1), offsetVert: Float(0.2), image: #imageLiteral(resourceName: "top_info_left")) //(Positive, Positive) -> topRight
+                    self.place2DImage(width: self.mWidthOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(0.1), offsetVert: Float(0.2), image: #imageLiteral(resourceName: "top_info_right")) //(Positive, Positive) -> topRight
+                    self.place3DText(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(0.0), offsetVert: Float(-0.2)) //(Positive, Positive) -> topRight
+                    
+                    
                     
                     let lineLeft = SCNNode(geometry: SCNGeometry.lineForm(vector1: topLeftVector, vector2: bottomLeftVector))
                     lineLeft.geometry?.firstMaterial?.diffuse.contents = UIColor.red
@@ -1080,6 +1060,56 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         let plane = SCNPlane(width: width, height: height)
         plane.firstMaterial?.diffuse.contents = UIColor.white
+        // HOW TO PLACE AN VIDEO: https://stackoverflow.com/questions/42469024/how-do-i-create-a-looping-video-material-in-scenekit-on-ios-in-swift-3
+        
+        let planeNode = SCNNode()
+        
+        let vecOffsetVert = SCNVector3Make(0, offsetVert, 0)
+        let vecOffsetHoriz = vecNormal.cross(vecOffsetVert).norm()*offsetHoriz
+        
+        planeNode.geometry = plane
+        planeNode.position = vecToCenter+vecOffsetVert+vecOffsetHoriz //CURRENT NORMAL VECTOR
+        
+        let vecRotation = vecToCenter.cross(vecNormal).norm()
+        let angle = acos(vecToCenter.norm().dot(vecNormal.norm()))
+        
+        //planeNode.rotation = SCNVector4Make(vecRotation.x, vecRotation.y, vecRotation.z, angle)
+        
+        self.sceneView.scene.rootNode.addChildNode(planeNode)
+    }
+    
+    func place3DText(width: CGFloat, height: CGFloat, vecNormal: SCNVector3, vecToCenter: SCNVector3, offsetHoriz: Float, offsetVert: Float) {
+        
+        
+        
+        let vecOffsetVert = SCNVector3Make(0, offsetVert, 0)
+        let vecOffsetHoriz = vecNormal.cross(vecOffsetVert).norm()*offsetHoriz
+        
+        
+        let vecRotation = vecToCenter.cross(vecNormal).norm()
+        let angle = acos(vecToCenter.norm().dot(vecNormal.norm()))
+        
+        //planeNode.rotation = SCNVector4Make(vecRotation.x, vecRotation.y, vecRotation.z, angle)
+        
+        let text = SCNText(string: "Arjen Robben (10)", extrusionDepth:1)
+        let material = SCNMaterial();
+        material.diffuse.contents = UIColor.red
+        text.materials = [material]
+        
+        let node = SCNNode()
+        node.position =  vecToCenter+vecOffsetVert+vecOffsetHoriz
+        node.scale =  SCNVector3(x:0.1, y:0.01, z:0.01)
+        node.geometry = text
+        
+        self.sceneView.scene.rootNode.addChildNode(node)
+    }
+    
+    func place2DImage(width: CGFloat, vecNormal: SCNVector3, vecToCenter: SCNVector3, offsetHoriz: Float, offsetVert: Float, image: UIImage) {
+        
+        let height = width*image.size.height/image.size.width
+        
+        let plane = SCNPlane(width: width, height: height)
+        plane.firstMaterial?.diffuse.contents = image
         // HOW TO PLACE AN VIDEO: https://stackoverflow.com/questions/42469024/how-do-i-create-a-looping-video-material-in-scenekit-on-ios-in-swift-3
         
         let planeNode = SCNNode()
