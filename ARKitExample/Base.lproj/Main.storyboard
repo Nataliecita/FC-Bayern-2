@@ -222,6 +222,7 @@
                     </view>
                     <connections>
                         <outlet property="addObjectButton" destination="xcf-ic-uGo" id="uFa-W2-4Iu"/>
+                        <outlet property="buttonRectangleDetection" destination="8AA-8q-OV8" id="mlu-pf-lUZ"/>
                         <outlet property="debugMessageLabel" destination="Cxm-GD-h1F" id="0BW-FJ-xmR"/>
                         <outlet property="featurePointCountLabel" destination="2ZI-fK-iax" id="wpJ-fJ-Kn2"/>
                         <outlet property="messageLabel" destination="Mqz-65-rAs" id="G3a-qn-5g9"/>
@@ -493,6 +494,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xit-vt-Vha" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="741.60000000000002" y="98.50074962518741"/>
+        </scene>
+        <!--Video View Controller-->
+        <scene sceneID="ufC-sL-1y3">
+            <objects>
+                <viewController restorationIdentifier="VideoViewController" storyboardIdentifier="VideoViewController" id="9U2-dh-Uqw" customClass="VideoViewController" customModule="ARKitExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jct-50-WYg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PpH-4x-v3M">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AHI-cS-nMW" firstAttribute="trailing" secondItem="PpH-4x-v3M" secondAttribute="trailing" id="Aa6-Vg-sEP"/>
+                            <constraint firstItem="AHI-cS-nMW" firstAttribute="bottom" secondItem="PpH-4x-v3M" secondAttribute="bottom" id="SX6-o8-N1e"/>
+                            <constraint firstItem="PpH-4x-v3M" firstAttribute="leading" secondItem="AHI-cS-nMW" secondAttribute="leading" id="VI6-8f-hz8"/>
+                            <constraint firstItem="PpH-4x-v3M" firstAttribute="top" secondItem="jct-50-WYg" secondAttribute="top" id="zrh-AP-ZaS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AHI-cS-nMW"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="PpH-4x-v3M" id="SFy-sh-1dC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xjW-ot-SEd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1468" y="98.50074962518741"/>
         </scene>
     </scenes>
     <resources>

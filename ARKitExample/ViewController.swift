@@ -836,13 +836,35 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 			})
 		}
 	}
+    
+    
+    func showVideo(){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let settingsViewController = storyboard.instantiateViewController(withIdentifier: "VideoViewController") as? VideoViewController else {
+            return
+        }
+        
+        let barButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissSettings))
+        settingsViewController.navigationItem.rightBarButtonItem = barButtonItem
+        settingsViewController.title = "Telecom Sport"
+        
+        let navigationController = UINavigationController(rootViewController: settingsViewController)
+        navigationController.modalPresentationStyle = .popover
+        navigationController.popoverPresentationController?.delegate = self
+        navigationController.preferredContentSize = CGSize(width: sceneView.bounds.size.width - 20, height: sceneView.bounds.size.height - 50)
+        self.present(navigationController, animated: true, completion: nil)
+        
+        navigationController.popoverPresentationController?.sourceView = buttonRectangleDetection
+        navigationController.popoverPresentationController?.sourceRect = buttonRectangleDetection.bounds
+    }
 		
 	// MARK: - Settings
 	
 	@IBOutlet weak var settingsButton: UIButton!
 	
 	@IBAction func showSettings(_ button: UIButton) {
-		let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        showVideo()
+		/*let storyboard = UIStoryboard(name: "Main", bundle: nil)
 		guard let settingsViewController = storyboard.instantiateViewController(withIdentifier: "settingsViewController") as? SettingsViewController else {
 			return
 		}
@@ -858,7 +880,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		self.present(navigationController, animated: true, completion: nil)
 		
 		navigationController.popoverPresentationController?.sourceView = settingsButton
-		navigationController.popoverPresentationController?.sourceRect = settingsButton.bounds
+		navigationController.popoverPresentationController?.sourceRect = settingsButton.bounds*/
 	}
 	
     @objc
@@ -1148,6 +1170,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     }
 
     //---------------------------------- MY BUTTONS ----------------------------
+    @IBOutlet var buttonRectangleDetection: UIButton!
+    
+    
     @IBAction func touchInRectangleButton(_ sender: Any) {
         doRectangleDetection()
     }
