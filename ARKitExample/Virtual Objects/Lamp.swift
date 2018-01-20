@@ -11,7 +11,9 @@ import ARKit
 class Lamp: VirtualObject {
 	
 	override init() {
-		super.init(modelName: "lamp", fileExtension: "scn", thumbImageFilename: "lamp", title: "Lamp")
+		super.init(modelName: "pitch", fileExtension: "dae", thumbImageFilename: "lamp", title: "Football pitch")
+        
+        self.scale = SCNVector3Make(0.0001, 0.0001, 0.0001)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

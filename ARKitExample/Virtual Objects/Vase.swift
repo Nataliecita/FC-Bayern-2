@@ -6,11 +6,14 @@ The virtual vase.
 */
 
 import Foundation
+import ARKit
 
 class Vase: VirtualObject {
 	
 	override init() {
-		super.init(modelName: "neuer", fileExtension: "fbx", thumbImageFilename: "vase", title: "Manuel Neuer")
+		super.init(modelName: "arena", fileExtension: "dae", thumbImageFilename: "vase", title: "Allianz Arena")
+        
+        self.scale = SCNVector3Make(0.00005, 0.00005, 0.00005)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

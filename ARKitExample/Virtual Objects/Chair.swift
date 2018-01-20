@@ -6,11 +6,17 @@ The virtual chair.
 */
 
 import Foundation
+import ARKit
 
 class Chair: VirtualObject {
 	
 	override init() {
-		super.init(modelName: "chair", fileExtension: "scn", thumbImageFilename: "chair", title: "Chair")
+		super.init(modelName: "neuer", fileExtension: "dae", thumbImageFilename: "chair", title: "Manuel Neuer")
+        
+        self.scale = SCNVector3Make(0.01, 0.01, 0.01)
+        
+        let vecRotation = SCNVector3Make(1.0, 0, 0)
+        self.rotation = SCNVector4Make(vecRotation.x, vecRotation.y, vecRotation.z, Float.pi/2.0)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

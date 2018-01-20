@@ -13,7 +13,7 @@ import Photos
 
 import Vision
 
-class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, VirtualObjectSelectionViewControllerDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, VirtualObjectSelectionViewControllerDelegate, SCNSceneRendererDelegate {
 	
     // MARK: - Main Setup & View Controller methods
     override func viewDidLoad() {
@@ -56,6 +56,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 			session.run(sessionConfig)
 		}
 	}*/
+    
+    
+    
 	var use3DOFTrackingFallback = false
     @IBOutlet var sceneView: ARSCNView!
 	var screenCenter: CGPoint?
@@ -404,9 +407,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 
     func resetVirtualObject(at: Int) {
         
-        virtualObjects[at].unloadModel()
+        //ERROR: at is about the index of the Virtual object in the add-list and not about the virtual object in the list of current shown objects
+        /*virtualObjects[at].unloadModel()
         virtualObjects[at].removeFromParentNode()
-        virtualObjects.remove(at: at)
+        virtualObjects.remove(at: at)*/
+        virtualObjects.last?.unloadModel()
+        virtualObjects.last?.removeFromParentNode()
+        virtualObjects.removeLast()
         /*
 		virtualObject?.unloadModel()
 		virtualObject?.removeFromParentNode()
@@ -975,7 +982,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                     let vectorNormal = vectorHorizontal.cross(vectorVertical)
                     let vectorToPlaneCenter = bottomRightVector+(topLeftVector-bottomRightVector)*0.5
                     
-                    self.place2DObject(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(0.3), offsetVert: Float(0.3)) //(Positive, Positive) -> topRight
+                    self.place2DVideo(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(0.3), offsetVert: Float(0.3)) //(Positive, Positive) -> topRight
                     
                     /*
                      
@@ -1068,9 +1075,91 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         self.sceneView.scene.rootNode.addChildNode(planeNode)
     }
+    
+    func place2DVideo(width: CGFloat, height: CGFloat, vecNormal: SCNVector3, vecToCenter: SCNVector3, offsetHoriz: Float, offsetVert: Float) {
+        
+        // A SpriteKit scene to contain the SpriteKit video node
+        let spriteKitScene = SKScene(size: CGSize(width: sceneView.frame.width, height: sceneView.frame.height)) //width, height: height))
+        spriteKitScene.scaleMode = .aspectFit
+        
+        // Create a video player, which will be responsible for the playback of the video material
+        //let videoUrl = URL(string: "http://dl.mnac-s-000000136.c.nmdn.net/mnac-s-000000136/20180120/0/0_21ptf6zo_0_tkgz11l3_2.mp4")!
+        //Bundle.main.url(forResource: "videos/video", withExtension: "mp4")!
+        let videoUrl = Bundle.main.url(forResource: "video", withExtension: "mp4")
+        let videoPlayer = AVPlayer(url: videoUrl!)
+        
+        // To make the video loop
+        videoPlayer.actionAtItemEnd = .none
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.playerItemDidReachEnd),
+            name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+            object: videoPlayer.currentItem)
+        
+        // Create the SpriteKit video node, containing the video player
+        let videoSpriteKitNode = SKVideoNode(avPlayer: videoPlayer)
+        videoSpriteKitNode.position = CGPoint(x: spriteKitScene.size.width / 2.0, y: spriteKitScene.size.height / 2.0)
+        videoSpriteKitNode.size = spriteKitScene.size
+        videoSpriteKitNode.yScale = -1.0
+        videoSpriteKitNode.play()
+        spriteKitScene.addChild(videoSpriteKitNode)
+        
+        
+        /*// Create the SceneKit scene
+        let scene = SCNScene()
+        sceneView.scene = scene
+        sceneView.delegate = self
+        sceneView.isPlaying = true*/
+        
+        // Create a SceneKit plane and add the SpriteKit scene as its material
+        let background = SCNPlane(width: width, height: height)
+        background.firstMaterial?.diffuse.contents = spriteKitScene
+        let backgroundNode = SCNNode(geometry: background)
+        //scene.rootNode.addChildNode(backgroundNode)
+        
+        
+        
+        
+        
+        
+        
+        /*
+        let plane = SCNPlane(width: width, height: height)
+        plane.firstMaterial?.diffuse.contents = UIColor.white
+        // HOW TO PLACE AN VIDEO: https://stackoverflow.com/questions/42469024/how-do-i-create-a-looping-video-material-in-scenekit-on-ios-in-swift-3
+        
+        let planeNode = SCNNode()
+        */
+        
+        let vecOffsetVert = SCNVector3Make(0, offsetVert, 0)
+        let vecOffsetHoriz = vecNormal.cross(vecOffsetVert).norm()*offsetHoriz
+        
+        //planeNode.geometry = plane
+        backgroundNode.position = vecToCenter+vecOffsetVert+vecOffsetHoriz //CURRENT NORMAL VECTOR
+        
+        let vecRotation = vecToCenter.cross(vecNormal).norm()
+        let angle = acos(vecToCenter.norm().dot(vecNormal.norm()))
+        
+        //planeNode.rotation = SCNVector4Make(vecRotation.x, vecRotation.y, vecRotation.z, angle)
+        
+        
+        //self.sceneView.scene.isPaused = false
+        self.sceneView.scene.rootNode.addChildNode(backgroundNode)
+    }
 
+    //---------------------------------- MY BUTTONS ----------------------------
+    @IBAction func touchInRectangleButton(_ sender: Any) {
+        doRectangleDetection()
+    }
     
     
+    // ------------------------------- VIDEO STREAM -------------------------------
+    // This callback will restart the video when it has reach its end
+    @objc func playerItemDidReachEnd(notification: NSNotification) {
+        if let playerItem: AVPlayerItem = notification.object as? AVPlayerItem {
+            playerItem.seek(to: kCMTimeZero)
+        }
+    }
     
     
     

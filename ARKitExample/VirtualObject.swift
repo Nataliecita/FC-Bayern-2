@@ -45,7 +45,7 @@ class VirtualObject: SCNNode {
 		let wrapperNode = SCNNode()
 		
 		for child in virtualObjectScene.rootNode.childNodes {
-			child.geometry?.firstMaterial?.lightingModel = .physicallyBased
+			//child.geometry?.firstMaterial?.lightingModel = .physicallyBased-------------------------------
 			child.movabilityHint = .movable
 			wrapperNode.addChildNode(child)
 		}
