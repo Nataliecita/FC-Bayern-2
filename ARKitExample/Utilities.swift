@@ -39,6 +39,34 @@ extension UIImage {
 	}
 }
 
+extension SCNGeometry {
+    
+    class func rectangleForm(topLeft: SCNVector3, topRight: SCNVector3, bottomLeft: SCNVector3, bottomRight: SCNVector3) -> SCNGeometry {
+        
+        let indices: [Int32] = [0, 1, 2]
+        let indices2: [Int32] = [0, 1, 2]
+        
+        let source = SCNGeometrySource(vertices: [topLeft, topRight, bottomRight])
+        let source2 = SCNGeometrySource(vertices: [topLeft, bottomLeft, bottomRight])
+        
+        let element = SCNGeometryElement(indices: indices, primitiveType: .triangles)
+        let element2 = SCNGeometryElement(indices: indices2, primitiveType: .triangles)
+        
+        return SCNGeometry(sources: [source, source2], elements: [element, element2])
+    }
+    
+    class func lineForm(vector1: SCNVector3, vector2: SCNVector3) -> SCNGeometry{
+        let indices: [Int32] = [0, 1]
+        
+        let source = SCNGeometrySource(vertices: [vector1, vector2])
+        
+        let element = SCNGeometryElement(indices: indices, primitiveType: .line)
+        
+        return SCNGeometry(sources: [source], elements: [element])
+    }
+}
+
+
 // MARK: - Collection extensions
 extension Array where Iterator.Element == CGFloat {
 	var average: CGFloat? {
@@ -163,6 +191,10 @@ extension SCNVector3 {
 	func cross(_ vec: SCNVector3) -> SCNVector3 {
 		return SCNVector3(self.y * vec.z - self.z * vec.y, self.z * vec.x - self.x * vec.z, self.x * vec.y - self.y * vec.x)
 	}
+    
+    func norm() -> SCNVector3 {
+        return self/self.length()
+    }
 }
 
 public let SCNVector3One: SCNVector3 = SCNVector3(1.0, 1.0, 1.0)
@@ -255,6 +287,10 @@ extension CGPoint {
 	func friendlyString() -> String {
 		return "(\(String(format: "%.2f", x)), \(String(format: "%.2f", y)))"
 	}
+    
+    func invert() ->CGPoint {
+        return CGPoint(x: (1.0-self.y), y: (1.0-self.x))
+    }
 }
 
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
@@ -624,3 +660,5 @@ func createPlane(size: CGSize, contents: AnyObject?) -> SCNPlane {
 	plane.materials = [SCNMaterial.material(withDiffuse: contents)]
 	return plane
 }
+
+
