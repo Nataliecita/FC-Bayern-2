@@ -82,12 +82,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcf-ic-uGo" userLabel="Add Object Button">
-                                <rect key="frame" x="163.5" y="604" width="48" height="48"/>
+                                <rect key="frame" x="155.5" y="588" width="64" height="64"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="48" id="NZv-Ts-4dl"/>
-                                    <constraint firstAttribute="height" constant="48" id="Z1M-DD-gjO"/>
+                                    <constraint firstAttribute="width" constant="64" id="NZv-Ts-4dl"/>
+                                    <constraint firstAttribute="height" constant="64" id="Z1M-DD-gjO"/>
                                 </constraints>
-                                <state key="normal" image="ic_home_48pt" backgroundImage="white">
+                                <state key="normal" image="ic_home_48pt" backgroundImage="circles_gray">
                                     <color key="titleColor" red="0.85882352941176465" green="0.72941176470588232" blue="0.22352941176470587" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -95,12 +95,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8AA-8q-OV8" userLabel="RectangleDetectionButton">
-                                <rect key="frame" x="223.5" y="604" width="48" height="48"/>
+                                <rect key="frame" x="231.5" y="588" width="64" height="64"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="xQE-rK-sVf"/>
-                                    <constraint firstAttribute="width" constant="48" id="y6v-IT-8JA"/>
+                                    <constraint firstAttribute="height" constant="64" id="xQE-rK-sVf"/>
+                                    <constraint firstAttribute="width" constant="64" id="y6v-IT-8JA"/>
                                 </constraints>
-                                <state key="normal" image="ic_people_48pt" backgroundImage="white">
+                                <state key="normal" image="ic_people_48pt" backgroundImage="circles_gray">
                                     <color key="titleColor" red="0.85882352939999995" green="0.72941176470000002" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -108,14 +108,17 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hD-oW-aPF" userLabel="OneButton">
-                                <rect key="frame" x="91" y="604" width="48" height="48"/>
+                                <rect key="frame" x="67" y="588" width="64" height="64"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="5nA-oF-SdU"/>
-                                    <constraint firstAttribute="width" constant="48" id="7cf-SK-FRV"/>
+                                    <constraint firstAttribute="height" constant="64" id="5nA-oF-SdU"/>
+                                    <constraint firstAttribute="width" constant="64" id="7cf-SK-FRV"/>
                                 </constraints>
-                                <state key="normal" image="ic_looks_one_48pt" backgroundImage="white">
+                                <state key="normal" image="ic_looks_one_48pt" backgroundImage="circles_white">
                                     <color key="titleColor" red="0.85882352939999995" green="0.72941176470000002" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="onOneButtonClicked:" destination="BV1-FR-VrT" eventType="touchUpInside" id="I2i-ej-KrP"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SuF-Os-zmb" userLabel="Restart Experience Button Hit Area">
                                 <rect key="frame" x="345" y="0.0" width="30" height="90"/>
@@ -200,18 +203,28 @@
                                 <blurEffect style="light"/>
                             </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cDt-L2-OzE">
-                                <rect key="frame" x="139" y="626" width="24" height="5"/>
+                                <rect key="frame" x="131" y="618" width="24" height="5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="5" id="oJf-lR-ZzH"/>
                                     <constraint firstAttribute="width" constant="24" id="s25-SV-Hg7"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Point the camera to your TV and click the button." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCJ-v5-GxM">
+                                <rect key="frame" x="37.5" y="278.5" width="300" height="111"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="lRw-Ay-kgd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="8AA-8q-OV8" firstAttribute="centerY" secondItem="xcf-ic-uGo" secondAttribute="centerY" id="0Le-Ei-Nu2"/>
                             <constraint firstItem="SuF-Os-zmb" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" id="35g-18-nn3"/>
+                            <constraint firstItem="VCJ-v5-GxM" firstAttribute="centerY" secondItem="E6c-py-dvH" secondAttribute="centerY" id="5eC-9B-Nvu"/>
                             <constraint firstItem="cDt-L2-OzE" firstAttribute="centerY" secondItem="xcf-ic-uGo" secondAttribute="centerY" id="635-Sy-SDU"/>
                             <constraint firstItem="BgI-fb-Vqi" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" constant="-15" id="6c1-k7-y99"/>
                             <constraint firstAttribute="bottom" secondItem="E6c-py-dvH" secondAttribute="bottom" id="6h6-BI-mhL"/>
@@ -237,6 +250,7 @@
                             <constraint firstItem="9e0-zv-RiN" firstAttribute="leading" secondItem="E6c-py-dvH" secondAttribute="leading" constant="15" id="iIf-WZ-kZj"/>
                             <constraint firstItem="GBj-4O-Whc" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" id="lHd-lf-g1u"/>
                             <constraint firstItem="GBj-4O-Whc" firstAttribute="bottom" secondItem="xcf-ic-uGo" secondAttribute="bottom" constant="15" id="sOL-M5-nW8"/>
+                            <constraint firstItem="VCJ-v5-GxM" firstAttribute="centerX" secondItem="E6c-py-dvH" secondAttribute="centerX" id="u9J-Yi-2bt"/>
                             <constraint firstItem="q5A-xD-w2H" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" id="uvV-bc-TtK"/>
                             <constraint firstItem="GBj-4O-Whc" firstAttribute="bottom" secondItem="j8v-6q-UBb" secondAttribute="bottom" constant="15" id="vm8-IH-8Qx"/>
                         </constraints>
@@ -244,15 +258,18 @@
                     </view>
                     <connections>
                         <outlet property="addObjectButton" destination="xcf-ic-uGo" id="uFa-W2-4Iu"/>
+                        <outlet property="buttonOne" destination="9hD-oW-aPF" id="Kkl-80-RnE"/>
                         <outlet property="buttonRectangleDetection" destination="8AA-8q-OV8" id="mlu-pf-lUZ"/>
                         <outlet property="debugMessageLabel" destination="Cxm-GD-h1F" id="0BW-FJ-xmR"/>
                         <outlet property="featurePointCountLabel" destination="2ZI-fK-iax" id="wpJ-fJ-Kn2"/>
+                        <outlet property="labelInstruction" destination="VCJ-v5-GxM" id="O3H-ME-1ow"/>
                         <outlet property="messageLabel" destination="Mqz-65-rAs" id="G3a-qn-5g9"/>
                         <outlet property="messagePanel" destination="9e0-zv-RiN" id="pKf-hp-Dvx"/>
                         <outlet property="restartExperienceButton" destination="BgI-fb-Vqi" id="Yfh-W4-qlO"/>
                         <outlet property="sceneView" destination="E6c-py-dvH" id="Gr4-Uw-Z4A"/>
                         <outlet property="screenshotButton" destination="qI1-of-tgS" id="RLx-ag-NNP"/>
                         <outlet property="settingsButton" destination="j8v-6q-UBb" id="wZV-ib-D05"/>
+                        <outlet property="viewConnect" destination="cDt-L2-OzE" id="41r-h4-VmT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -548,6 +565,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="circles_gray" width="66" height="66"/>
+        <image name="circles_white" width="66" height="66"/>
         <image name="ic_home_48pt" width="48" height="48"/>
         <image name="ic_looks_one_48pt" width="48" height="48"/>
         <image name="ic_people_48pt" width="48" height="48"/>
@@ -557,6 +576,5 @@
         <image name="settingsPressed" width="41" height="48"/>
         <image name="shutter" width="48" height="48"/>
         <image name="shutterPressed" width="48" height="48"/>
-        <image name="white" width="48" height="48"/>
     </resources>
 </document>

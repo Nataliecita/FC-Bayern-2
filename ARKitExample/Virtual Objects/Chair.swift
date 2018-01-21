@@ -11,7 +11,7 @@ import ARKit
 class Chair: VirtualObject {
 	
 	override init() {
-		super.init(modelName: "neuer", fileExtension: "dae", thumbImageFilename: "chair", title: "Manuel Neuer")
+		super.init(modelName: "neuer", fileExtension: "dae", thumbImageFilename: "ic_accessibility_48pt", title: "Manuel Neuer")
         
         self.scale = SCNVector3Make(0.01, 0.01, 0.01)
         

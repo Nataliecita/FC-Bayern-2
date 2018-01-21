@@ -11,7 +11,7 @@ import ARKit
 class Cup: VirtualObject {
 	
 	override init() {
-		super.init(modelName: "robben", fileExtension: "dae", thumbImageFilename: "cup", title: "Arien Robben")
+		super.init(modelName: "robben", fileExtension: "dae", thumbImageFilename: "ic_accessibility_48pt", title: "Arien Robben")
         
         self.scale = SCNVector3Make(0.01, 0.01, 0.01)
         

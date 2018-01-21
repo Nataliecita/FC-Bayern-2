@@ -26,6 +26,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		setupFocusSquare()
 		updateSettings()
 		resetVirtualObjectAll()
+        
+        self.prepareFirst()
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -251,7 +253,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if virtualObjectToMove == nil {
-			chooseObject(addObjectButton)
+			//chooseObject(addObjectButton)
 			return
 		}
 		
@@ -579,23 +581,31 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	
 	@IBAction func chooseObject(_ button: UIButton) {
 		// Abort if we are about to load another object to avoid concurrent modifications of the scene.
-		if isLoadingObject { return }
+        if self.currentButton == addObjectButton {
+            self.dropdownMenue(button)
+        }
+        
 		
-		textManager.cancelScheduledMessage(forType: .contentPlacement)
-		
-		let rowHeight = 45
-		let popoverSize = CGSize(width: 250, height: rowHeight * VirtualObject.availableObjects.count)
-		
-		let objectViewController = VirtualObjectSelectionViewController(size: popoverSize)
-		objectViewController.delegate = self
-		objectViewController.modalPresentationStyle = .popover
-		objectViewController.popoverPresentationController?.delegate = self
-		self.present(objectViewController, animated: true, completion: nil)
-		
-		objectViewController.popoverPresentationController?.sourceView = button
-		objectViewController.popoverPresentationController?.sourceRect = button.bounds
     }
 	
+    func dropdownMenue(_ button: UIButton){
+        if isLoadingObject { return }
+        
+        textManager.cancelScheduledMessage(forType: .contentPlacement)
+        
+        let rowHeight = 45
+        let popoverSize = CGSize(width: 250, height: rowHeight * VirtualObject.availableObjects.count)
+        
+        let objectViewController = VirtualObjectSelectionViewController(size: popoverSize)
+        objectViewController.delegate = self
+        objectViewController.modalPresentationStyle = .popover
+        objectViewController.popoverPresentationController?.delegate = self
+        self.present(objectViewController, animated: true, completion: nil)
+        
+        objectViewController.popoverPresentationController?.sourceView = button
+        objectViewController.popoverPresentationController?.sourceRect = button.bounds
+    }
+    
 	// MARK: - VirtualObjectSelectionViewControllerDelegate
 	
 	func virtualObjectSelectionViewController(_: VirtualObjectSelectionViewController, didSelectObjectAt index: Int) {
@@ -955,6 +965,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     //------------------------- CONSTANTS -------------------------
     let mWidthOf2DScreen = CGFloat(0.4)
     let mHeightOf2DScreen = CGFloat(0.225)
+    let debugRect = true
     
     //------------------------------------ HERE THE REAL STUFF IS DONE ------------------------------------------------------
     
@@ -1019,6 +1030,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                     
                     
                     // ------------ SOME DEBUGGING STUFF -------------------
+                    if self.debugRect {
                     let lineLeft = SCNNode(geometry: SCNGeometry.lineForm(vector1: topLeftVector, vector2: bottomLeftVector))
                     lineLeft.geometry?.firstMaterial?.diffuse.contents = UIColor.red
                     let lineRight = SCNNode(geometry: SCNGeometry.lineForm(vector1: topRightVector, vector2: bottomRightVector))
@@ -1030,9 +1042,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                     self.sceneView.scene.rootNode.addChildNode(lineRight)
                     self.sceneView.scene.rootNode.addChildNode(lineTop)
                     self.sceneView.scene.rootNode.addChildNode(lineBottom)
+                        
+                    }
                     
                     
-                    self.second()
+                    self.prepareSecond()
                 }
             }
             
@@ -1210,12 +1224,36 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     }
 
     //---------------------------------- MY BUTTONS ----------------------------
+    var currentButton: UIButton?
+    
+    @IBOutlet var labelInstruction: UILabel!
+    
+    
     @IBOutlet var buttonRectangleDetection: UIButton!
     
+    @IBOutlet var buttonOne: UIButton!
     
-    @IBAction func touchInRectangleButton(_ sender: Any) {
-        doRectangleDetection()
+    @IBOutlet var viewConnect: UIView!
+    
+    
+    @IBAction func touchInRectangleButton(_ button: UIButton) {
+        if currentButton == buttonRectangleDetection{
+            //DROPDOWN MENUE
+            self.dropdownMenue(button)
+            
+        }else{
+            prepareThird()
+        }
     }
+    
+    @IBAction func onOneButtonClicked(_ sender: Any) {
+        if currentButton == buttonOne {
+            doRectangleDetection()
+        }
+    }
+    
+    
+    
     
     
     // ------------------------------- VIDEO STREAM -------------------------------
@@ -1234,8 +1272,42 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     var vecHalfUp: SCNVector3?
     var vecHalfRight: SCNVector3?
     
+    func prepareFirst(){
+        addObjectButton.setBackgroundImage(#imageLiteral(resourceName: "circles_gray"), for: .disabled)
+        buttonRectangleDetection.setBackgroundImage(#imageLiteral(resourceName: "circles_gray"), for: .disabled)
+        buttonOne.setBackgroundImage(#imageLiteral(resourceName: "circles_gray"), for: .disabled)
+        addObjectButton.setBackgroundImage(#imageLiteral(resourceName: "circles_white"), for: .normal)
+        buttonRectangleDetection.setBackgroundImage(#imageLiteral(resourceName: "circles_white"), for: .normal)
+        buttonOne.setBackgroundImage(#imageLiteral(resourceName: "circles_white"), for: .normal)
+        
+        buttonOne.setBackgroundImage(#imageLiteral(resourceName: "circle_on_"), for: .normal)
+        
+        addObjectButton.isEnabled = false
+        buttonRectangleDetection.isEnabled = false
+        buttonOne.isEnabled = true
+        self.labelInstruction.isHidden = false
+        
+        self.currentButton = buttonOne
+        
+        self.first()
+    }
+    
     func first(){
-        doRectangleDetection()
+        //TEXT
+    }
+    
+    func prepareSecond(){
+        addObjectButton.isEnabled = true
+        buttonRectangleDetection.isEnabled = true
+        buttonOne.isEnabled = false
+        self.labelInstruction.isHidden = true
+        addObjectButton.setBackgroundImage(#imageLiteral(resourceName: "circle_on_"), for: .normal)
+        buttonOne.setBackgroundImage(#imageLiteral(resourceName: "circles_white"), for: .normal)
+        buttonRectangleDetection.setBackgroundImage(#imageLiteral(resourceName: "circles_white"), for: .normal)
+        
+        self.currentButton = addObjectButton
+        
+        self.second()
     }
     
     func second(){
@@ -1247,6 +1319,25 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         self.place3DText(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(-0.2)) //(Positive, Positive) -> topRight
             
         }
+    }
+    
+    func prepareThird(){
+        addObjectButton.isEnabled = true
+        buttonRectangleDetection.isEnabled = true
+        buttonOne.isEnabled = false
+        self.labelInstruction.isHidden = true
+        
+        buttonRectangleDetection.setBackgroundImage(#imageLiteral(resourceName: "circle_on_"), for: .normal)
+        buttonOne.setBackgroundImage(#imageLiteral(resourceName: "circles_white"), for: .normal)
+        addObjectButton.setBackgroundImage(#imageLiteral(resourceName: "circles_white"), for: .normal)
+        
+        self.currentButton = buttonRectangleDetection
+        
+        self.third()
+    }
+    
+    func third(){
+        
     }
     
     
