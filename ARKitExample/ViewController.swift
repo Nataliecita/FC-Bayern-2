@@ -420,8 +420,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		virtualObject = nil
         */
 		
-		addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
-		addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
+		//addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
+		//addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
 		
 		// Reset selected object id for row highlighting in object selection view controller.
 		UserDefaults.standard.set(-1, for: .selectedObjectID)
@@ -435,8 +435,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         virtualObjects.removeAll()
         
-        addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
-        addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
+        //addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
+        //addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
         
         // Reset selected object id for row highlighting in object selection view controller.
         UserDefaults.standard.set(-1, for: .selectedObjectID)
@@ -542,7 +542,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		let spinner = UIActivityIndicatorView()
 		spinner.center = addObjectButton.center
 		spinner.bounds.size = CGSize(width: addObjectButton.bounds.width - 5, height: addObjectButton.bounds.height - 5)
-		addObjectButton.setImage(#imageLiteral(resourceName: "buttonring"), for: [])
+		//addObjectButton.setImage(#imageLiteral(resourceName: "buttonring"), for: [])
 		sceneView.addSubview(spinner)
 		spinner.startAnimating()
 		
@@ -570,8 +570,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 				// Update the icon of the add object button
 				let buttonImage = UIImage.composeButtonImage(from: object.thumbImage)
 				let pressedButtonImage = UIImage.composeButtonImage(from: object.thumbImage, alpha: 0.3)
-				self.addObjectButton.setImage(buttonImage, for: [])
-				self.addObjectButton.setImage(pressedButtonImage, for: [.highlighted])
+				//self.addObjectButton.setImage(buttonImage, for: [])
+				//self.addObjectButton.setImage(pressedButtonImage, for: [.highlighted])
 				self.isLoadingObject = false
 			}
 		}
@@ -767,6 +767,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		featurePointCountLabel.text = ""
 		debugMessageLabel.text = ""
 		messageLabel.text = ""
+        
     }
 	
 	@IBOutlet weak var restartExperienceButton: UIButton!
@@ -968,9 +969,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             
             //------------------ HANDLE TEXT RECTANGLE REQUEST -----------------------
             print("InitRectangleDetectionRequest HANDLER")
+            
             guard let observations = request.results else {
                 print("no result")
                 return
+            }
+            
+            if (request.results?.isEmpty)! {
+                print("Requests are empty")
             }
             
             let result = observations.map({$0 as? VNRectangleObservation})
@@ -1004,14 +1010,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                     let vectorNormal = vectorHorizontal.cross(vectorVertical)
                     let vectorToPlaneCenter = bottomRightVector+(topLeftVector-bottomRightVector)*0.5
                     
-                    self.place2DVideo(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(0.3), offsetVert: Float(0.3)) //(Positive, Positive) -> topRight
+                    // SET VARIABLES
+                    self.vecHalfRight = vectorHorizontal*0.5
+                    self.vecHalfUp = vectorVertical*0.5
+                    self.vecToRectCenter = vectorToPlaneCenter
+                    self.vecNormal = vectorNormal
                     
-                    self.place2DImage(width: self.mWidthOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(-0.1), offsetVert: Float(0.2), image: #imageLiteral(resourceName: "top_info_left")) //(Positive, Positive) -> topRight
-                    self.place2DImage(width: self.mWidthOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(0.1), offsetVert: Float(0.2), image: #imageLiteral(resourceName: "top_info_right")) //(Positive, Positive) -> topRight
-                    self.place3DText(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vectorNormal, vecToCenter: vectorToPlaneCenter, offsetHoriz: Float(0.0), offsetVert: Float(-0.2)) //(Positive, Positive) -> topRight
                     
                     
-                    
+                    // ------------ SOME DEBUGGING STUFF -------------------
                     let lineLeft = SCNNode(geometry: SCNGeometry.lineForm(vector1: topLeftVector, vector2: bottomLeftVector))
                     lineLeft.geometry?.firstMaterial?.diffuse.contents = UIColor.red
                     let lineRight = SCNNode(geometry: SCNGeometry.lineForm(vector1: topRightVector, vector2: bottomRightVector))
@@ -1023,6 +1030,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                     self.sceneView.scene.rootNode.addChildNode(lineRight)
                     self.sceneView.scene.rootNode.addChildNode(lineTop)
                     self.sceneView.scene.rootNode.addChildNode(lineBottom)
+                    
+                    
+                    self.second()
                 }
             }
             
@@ -1216,6 +1226,28 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         }
     }
     
+    
+    
+    // ---------------------------- USER JOURNEY -------------------------
+    var vecToRectCenter: SCNVector3?
+    var vecNormal: SCNVector3?
+    var vecHalfUp: SCNVector3?
+    var vecHalfRight: SCNVector3?
+    
+    func first(){
+        doRectangleDetection()
+    }
+    
+    func second(){
+        if vecToRectCenter != nil && vecNormal != nil && vecHalfUp != nil && vecHalfRight != nil {
+        self.place2DVideo(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.3), offsetVert: Float(0.3)) //(Positive, Positive) -> topRight
+        
+        self.place2DImage(width: self.mWidthOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.1), offsetVert: Float(0.2), image: #imageLiteral(resourceName: "top_info_left")) //(Positive, Positive) -> topRight
+        self.place2DImage(width: self.mWidthOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.1), offsetVert: Float(0.2), image: #imageLiteral(resourceName: "top_info_right")) //(Positive, Positive) -> topRight
+        self.place3DText(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(-0.2)) //(Positive, Positive) -> topRight
+            
+        }
+    }
     
     
 }
