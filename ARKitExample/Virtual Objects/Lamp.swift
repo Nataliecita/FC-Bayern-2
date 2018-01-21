@@ -11,7 +11,7 @@ import ARKit
 class Lamp: VirtualObject {
 	
 	override init() {
-		super.init(modelName: "pitch", fileExtension: "dae", thumbImageFilename: "lamp", title: "Football pitch")
+		super.init(modelName: "pitch", fileExtension: "dae", thumbImageFilename: "ic_favorite", title: "Football pitch")
         
         self.scale = SCNVector3Make(0.0001, 0.0001, 0.0001)
 	}

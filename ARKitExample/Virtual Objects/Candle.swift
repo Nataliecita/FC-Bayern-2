@@ -11,7 +11,7 @@ import SceneKit
 class Candle: VirtualObject, ReactsToScale {
 	
 	override init() {
-		super.init(modelName: "bars", fileExtension: "bae", thumbImageFilename: "candle", title: "Statistics")
+		super.init(modelName: "bars", fileExtension: "bae", thumbImageFilename: "ic_poll_48pt", title: "Statistics")
         
         self.scale = SCNVector3Make(100,100,100)//(0.01, 0.01, 0.01)
 	}

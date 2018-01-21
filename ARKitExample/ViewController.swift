@@ -583,6 +583,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		// Abort if we are about to load another object to avoid concurrent modifications of the scene.
         if self.currentButton == addObjectButton {
             self.dropdownMenue(button)
+        }else{
+            self.prepareSecond()
         }
         
 		
@@ -963,8 +965,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     // ---------------------------------------- XXXXXXXXXXXXXXXXXXXXXXXXX -----------------------------------------
     
     //------------------------- CONSTANTS -------------------------
-    let mWidthOf2DScreen = CGFloat(0.4)
-    let mHeightOf2DScreen = CGFloat(0.225)
+    let mWidthOf2DScreen = CGFloat(0.5)//0.4
+    let mHeightOf2DScreen = CGFloat(0.281)//0.225
     let debugRect = true
     
     //------------------------------------ HERE THE REAL STUFF IS DONE ------------------------------------------------------
@@ -1125,6 +1127,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         node.scale =  SCNVector3(x:0.1, y:0.01, z:0.01)
         node.geometry = text
         
+        self.nodes.append(node)
         self.sceneView.scene.rootNode.addChildNode(node)
     }
     
@@ -1149,6 +1152,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         //planeNode.rotation = SCNVector4Make(vecRotation.x, vecRotation.y, vecRotation.z, angle)
         
+        self.nodes.append(planeNode)
         self.sceneView.scene.rootNode.addChildNode(planeNode)
     }
     
@@ -1220,6 +1224,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         
         //self.sceneView.scene.isPaused = false
+        self.nodes.append(backgroundNode)
         self.sceneView.scene.rootNode.addChildNode(backgroundNode)
     }
 
@@ -1272,6 +1277,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     var vecHalfUp: SCNVector3?
     var vecHalfRight: SCNVector3?
     
+    var nodes: [SCNNode] = []
+    
     func prepareFirst(){
         addObjectButton.setBackgroundImage(#imageLiteral(resourceName: "circles_gray"), for: .disabled)
         buttonRectangleDetection.setBackgroundImage(#imageLiteral(resourceName: "circles_gray"), for: .disabled)
@@ -1307,6 +1314,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         self.currentButton = addObjectButton
         
+        self.removeAllChilds()
+        
         self.second()
     }
     
@@ -1322,21 +1331,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             /*self.place2DImage(width: 0.55, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.4), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_info_left")) //(Positive, Positive) -> topRight
             self.place2DImage(width: 0.55, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.4), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_info_right")) //(Positive, Positive) -> topRight
             self.place2DImage(width: 0.27, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_info_score")) //(Positive, Positive) -> topRight*/
-            self.place2DImage(width: 1.35, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_widgets-15")) //(Positive, Positive) -> topRight*/
-            self.place2DImage(width: 0.27, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-2"))
+            self.place2DImage(width: 1.0, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_widgets-15")) //(Positive, Positive) -> topRight*/
+            self.place2DImage(width: 0.20, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-2"))
             
-            self.place2DVideo(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.5), offsetVert: Float(0.1)) //(Positive, Positive) -> topRight
+            self.place2DVideo(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.7), offsetVert: Float(0.1)) //(Positive, Positive) -> topRight
             
-            self.place2DImage(width: 0.20, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.8), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-5"))
-            self.place2DImage(width: 0.40, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.8), offsetVert: Float(0.1), image: #imageLiteral(resourceName: "widgets-12"))
+            self.place2DImage(width: 0.20, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.7), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-5"))
+            self.place2DImage(width: 0.40, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.6), offsetVert: Float(0.1), image: #imageLiteral(resourceName: "widgets-12"))
             /*self.place2DImage(width: 0.2, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.8), offsetVert: Float(-0.15), image: #imageLiteral(resourceName: "widgets-3"))*/
-            self.place2DImage(width: 0.2, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.8), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-4"))/*
+            self.place2DImage(width: 0.2, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.7), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-4"))/*
             self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-7"))*/
             /*
             self.place2DImage(width: 0.35, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.4), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-13"))
             self.place2DImage(width: 0.35, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.4), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-14"))
             */
-            self.place2DImage(width: 1.35, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "bottom_widgets-16"))
+            self.place2DImage(width: 1.15, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "bottom_widgets-16"))
             
         }
     }
@@ -1353,24 +1362,35 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         self.currentButton = buttonRectangleDetection
         
+        self.removeAllChilds()
+        
         self.third()
     }
     
     func third(){
         if vecToRectCenter != nil && vecNormal != nil && vecHalfUp != nil && vecHalfRight != nil {
         
-            self.place2DImage(width: 0.55, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.4), offsetVert: Float(0.5), image: #imageLiteral(resourceName: "top_info_left")) //(Positive, Positive) -> topRight
+            /*self.place2DImage(width: 0.55, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.4), offsetVert: Float(0.5), image: #imageLiteral(resourceName: "top_info_left")) //(Positive, Positive) -> topRight
             self.place2DImage(width: 0.55, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.4), offsetVert: Float(0.5), image: #imageLiteral(resourceName: "top_info_right")) //(Positive, Positive) -> topRight
-            self.place2DImage(width: 0.27, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.5), image: #imageLiteral(resourceName: "top_info_score")) //(Positive, Positive) -> topRight
-            /*self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-2"))
+            self.place2DImage(width: 0.27, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.5), image: #imageLiteral(resourceName: "top_info_score")) //(Positive, Positive) -> topRight*/
             
-            self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-6"))
-            self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-9"))
-            self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-10"))
-            self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-11"))
-            */
+            self.place2DImage(width: 1.00, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_widgets-15")) //(Positive, Positive) -> topRight*/
+            self.place2DImage(width: 0.20, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-2"))
+            
+            
+            self.place2DImage(width: 0.25, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.5), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-6"))
+            self.place2DImage(width: 0.3, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.6), offsetVert: Float(0.05), image: #imageLiteral(resourceName: "widgets-9"))
+            self.place2DImage(width: 0.4, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.6), offsetVert: Float(0.15), image: #imageLiteral(resourceName: "widgets-10"))
+            self.place2DImage(width: 0.4, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.6), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-11"))
+            
         }
     }
     
+    func removeAllChilds(){
+        //self.sceneView.scene.rootNode.childNodes.removeAll()
+        for node in self.nodes{
+            node.removeFromParentNode()
+        }
+    }
     
 }
