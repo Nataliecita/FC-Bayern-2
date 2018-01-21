@@ -967,7 +967,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     //------------------------- CONSTANTS -------------------------
     let mWidthOf2DScreen = CGFloat(0.5)//0.4
     let mHeightOf2DScreen = CGFloat(0.281)//0.225
-    let debugRect = true
+    let debugRect = false
     
     //------------------------------------ HERE THE REAL STUFF IS DONE ------------------------------------------------------
     
