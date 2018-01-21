@@ -1319,20 +1319,24 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         self.place3DText(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(-0.2)) //(Positive, Positive) -> topRight
             */
             
-            self.place2DImage(width: 0.55, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.4), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_info_left")) //(Positive, Positive) -> topRight
+            /*self.place2DImage(width: 0.55, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.4), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_info_left")) //(Positive, Positive) -> topRight
             self.place2DImage(width: 0.55, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.4), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_info_right")) //(Positive, Positive) -> topRight
-            self.place2DImage(width: 0.27, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_info_score")) //(Positive, Positive) -> topRight
+            self.place2DImage(width: 0.27, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_info_score")) //(Positive, Positive) -> topRight*/
+            self.place2DImage(width: 1.35, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(0.35), image: #imageLiteral(resourceName: "top_widgets-15")) //(Positive, Positive) -> topRight*/
             self.place2DImage(width: 0.27, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-2"))
             
-            self.place2DVideo(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.8), offsetVert: Float(-0.35)) //(Positive, Positive) -> topRight
-            /*
-            self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-5"))
-            self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-12"))
-            self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-3"))
-            self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-4"))
+            self.place2DVideo(width: self.mWidthOf2DScreen, height: self.mHeightOf2DScreen, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.5), offsetVert: Float(0.1)) //(Positive, Positive) -> topRight
+            
+            self.place2DImage(width: 0.20, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.8), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-5"))
+            self.place2DImage(width: 0.40, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.8), offsetVert: Float(0.1), image: #imageLiteral(resourceName: "widgets-12"))
+            /*self.place2DImage(width: 0.2, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.8), offsetVert: Float(-0.15), image: #imageLiteral(resourceName: "widgets-3"))*/
+            self.place2DImage(width: 0.2, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.8), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-4"))/*
             self.place2DImage(width: <#T##CGFloat#>, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: <#T##Float#>, offsetVert: <#T##Float#>, image: #imageLiteral(resourceName: "widgets-7"))*/
+            /*
             self.place2DImage(width: 0.35, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(-0.4), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-13"))
             self.place2DImage(width: 0.35, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.4), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "widgets-14"))
+            */
+            self.place2DImage(width: 1.35, vecNormal: vecNormal!, vecToCenter: vecToRectCenter!, offsetHoriz: Float(0.0), offsetVert: Float(-0.35), image: #imageLiteral(resourceName: "bottom_widgets-16"))
             
         }
     }
